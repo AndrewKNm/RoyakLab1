@@ -13,6 +13,7 @@ namespace RoyakLab1
 {
     public partial class Form1 : Form
     {
+        private Graphics g;
         private IGraphicsBuilder GraphicsBuilder;
 
         public Form1()
@@ -23,29 +24,27 @@ namespace RoyakLab1
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            g = pictureBox1.CreateGraphics();
+            g.Clear(Color.White);
         }
 
         private void Form1_Buttom(object sender, EventArgs e)
         {
             var myBrush = new SolidBrush(Color.Aqua);
-            var formGraphics = CreateGraphics();
-            var h = 200;
-            var w = 300;
-            if (Int32.TryParse(textBox1.Text, out var numValue1))
-            {
-                h = numValue1;
-            }
-
-            if (Int32.TryParse(textBox2.Text, out var numValue2))
-            {
-                w = numValue2;
-            }
-
-            formGraphics.Clear(Color.White);
-            formGraphics.DrawPath(new Pen(Color.Black), GraphicsBuilder.GetPath());
+            g.DrawPath(new Pen(Color.Black), GraphicsBuilder.GetPath());
             myBrush.Dispose();
       }
-        
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            Brush aBrush = (Brush)Brushes.Black;
+            var posX = pictureBox1.PointToClient(Cursor.Position).X;
+            var posY = pictureBox1.PointToClient(Cursor.Position).Y;
+
+            label1.Text = Convert.ToString(posX + ";"+ posY);
+            GraphicsBuilder.AddPoint(PointToClient(Cursor.Position));
+            g.FillRectangle(aBrush, posX, posY, 2, 2);
+            
+        }
     }
 }
