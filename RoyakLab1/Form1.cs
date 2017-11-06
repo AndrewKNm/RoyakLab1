@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using org.mariuszgromada.math.mxparser;
 
 namespace RoyakLab1
 {
@@ -45,6 +46,11 @@ namespace RoyakLab1
             GraphicsBuilder.AddPoint(PointToClient(Cursor.Position));
             g.FillRectangle(aBrush, posX, posY, 2, 2);
             
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            GraphicsBuilder.ParseExpression(textBox3.Text);
         }
     }
 }
