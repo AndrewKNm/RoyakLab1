@@ -2,11 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Drawing;
+using org.mariuszgromada.math.mxparser;
+
 namespace RoyakLab1
+
 {
     public class GraphicsBuilder : IGraphicsBuilder
     {
+        Expression exp;
         private List<Point> pointList;
+        public void ParseExpression(string s)
+        {
+            for (int i = 0; i < 640; i += 4)
+            {
+                double ax = (double)i / 100;
+                Argument x = new Argument(string.Format("x = {0}",ax));
+                exp = new Expression(s, x);
+                var y = exp.calculate();
+                AddPoint(new Point(i, (int)(y * 100)));
+            }
+        }
         public GraphicsBuilder()
         {
             pointList = new List<Point>();
