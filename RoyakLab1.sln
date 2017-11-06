@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoyakLab1", "RoyakLab1\RoyakLab1.csproj", "{D165B54A-A70A-41C9-88C1-9027604BE60F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApp1", "WpfApp1\WpfApp1.csproj", "{3204E19E-10FF-49BE-A08A-2C162984FA6B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{D165B54A-A70A-41C9-88C1-9027604BE60F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D165B54A-A70A-41C9-88C1-9027604BE60F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D165B54A-A70A-41C9-88C1-9027604BE60F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3204E19E-10FF-49BE-A08A-2C162984FA6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3204E19E-10FF-49BE-A08A-2C162984FA6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3204E19E-10FF-49BE-A08A-2C162984FA6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3204E19E-10FF-49BE-A08A-2C162984FA6B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
