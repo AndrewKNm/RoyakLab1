@@ -20,12 +20,13 @@ namespace WpfApp1
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             LinkedList<Point> pointList = new LinkedList<Point>();
-            for (int i = 0; i < 640; i += 4)
+            for (int i = 0; i < DrawGrid.ActualWidth; i += 4)
             {
                 double ax = (double)i / 100;
                 Argument x = new Argument($"x = {ax}");
                 exp = new org.mariuszgromada.math.mxparser.Expression(TextBox.Text, x);
                 var y = exp.calculate();
+                y = -y + DrawGrid.ActualHeight/100;
                 pointList.AddLast(new Point(i, (int)(y * 100)));
             }
 
