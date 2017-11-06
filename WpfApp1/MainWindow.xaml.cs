@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
+using org.mariuszgromada.math.mxparser;
 
 namespace WpfApp1
 {
@@ -20,6 +11,7 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
+        org.mariuszgromada.math.mxparser.Expression exp;
         public MainWindow()
         {
             InitializeComponent();
@@ -27,19 +19,35 @@ namespace WpfApp1
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var myPath = new Path();
-            myPath.Stroke = System.Windows.Media.Brushes.Black;
-            myPath.Fill = System.Windows.Media.Brushes.MediumSlateBlue;
-            myPath.StrokeThickness = 4;
+            LinkedList<Point> pointList = new LinkedList<Point>();
+            for (int i = 0; i < 640; i += 4)
+            {
+                double ax = (double)i / 100;
+                Argument x = new Argument($"x = {ax}");
+                exp = new org.mariuszgromada.math.mxparser.Expression(TextBox.Text, x);
+                var y = exp.calculate();
+                pointList.AddLast(new Point(i, (int)(y * 100)));
+            }
 
-            var lines = new PathGeometry();
-            lines.AddGeometry(new LineGeometry(new Point(0,1), new Point(10,20) ));
-            lines.AddGeometry(new LineGeometry(new Point(10, 20), new Point(20, 20)));
-
-            myPath.Data = lines;
+            var myPath = new Path
+            {
+                Stroke = Brushes.Black,
+                StrokeThickness = 4,
+                Data = Linearize(pointList)
+            };
 
             DrawGrid.Children.Clear();
             DrawGrid.Children.Add(myPath);
+        }
+
+        public PathGeometry Linearize(LinkedList<Point> points)
+        {
+            var path = new PathGeometry();
+            for (var point = points.First; point.Next != null; point = point.Next)
+            {
+                path.AddGeometry(new LineGeometry(point.Value, point.Next.Value));
+            }
+            return path;
         }
     }
 }
