@@ -27,25 +27,19 @@ namespace WpfApp1
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Line objLine = new Line();
+            var myPath = new Path();
+            myPath.Stroke = System.Windows.Media.Brushes.Black;
+            myPath.Fill = System.Windows.Media.Brushes.MediumSlateBlue;
+            myPath.StrokeThickness = 4;
 
-            objLine.Stroke = System.Windows.Media.Brushes.Black; //Umriss 
-            objLine.Fill = System.Windows.Media.Brushes.Black; //Fuellung 
+            var lines = new PathGeometry();
+            lines.AddGeometry(new LineGeometry(new Point(0,1), new Point(10,20) ));
+            lines.AddGeometry(new LineGeometry(new Point(10, 20), new Point(20, 20)));
 
-            //< Start-Point > 
-            objLine.X1 = 0;
-            objLine.Y1 = 0;
-            //</ Start-Point > 
-
-            //< End-Point > 
-            objLine.X2 = Application.Current.MainWindow.ActualWidth - 50;
-            objLine.Y2 = Application.Current.MainWindow.ActualHeight - 100;
-            //</ End-Point > 
+            myPath.Data = lines;
 
             DrawGrid.Children.Clear();
-            //< show in maingrid > 
-            DrawGrid.Children.Add(objLine);
-            //</ show in maingrid > 
+            DrawGrid.Children.Add(myPath);
         }
     }
 }
