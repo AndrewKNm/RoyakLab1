@@ -31,6 +31,7 @@ namespace RoyakLab1
 
         private void Form1_Buttom(object sender, EventArgs e)
         {
+            GraphicsBuilder.ParseExpression(textBox3.Text, pictureBox1.Height);
             var myBrush = new SolidBrush(Color.Aqua);
             g.DrawPath(new Pen(Color.Black), GraphicsBuilder.GetPath());
             myBrush.Dispose();
@@ -38,19 +39,19 @@ namespace RoyakLab1
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            Brush aBrush = (Brush)Brushes.Black;
-            var posX = pictureBox1.PointToClient(Cursor.Position).X;
-            var posY = pictureBox1.PointToClient(Cursor.Position).Y;
-
-            label1.Text = Convert.ToString(posX + ";"+ posY);
-            GraphicsBuilder.AddPoint(PointToClient(Cursor.Position));
-            g.FillRectangle(aBrush, posX, posY, 2, 2);
+          //  Brush aBrush = (Brush)Brushes.Black;
+          //  var posX = pictureBox1.PointToClient(Cursor.Position).X;
+          //  var posY = pictureBox1.PointToClient(Cursor.Position).Y;
+          //
+          //  label1.Text = Convert.ToString(posX + ";"+ posY);
+          //  GraphicsBuilder.AddPoint(PointToClient(Cursor.Position));
+          //  g.FillRectangle(aBrush, posX, posY, 2, 2);
             
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            GraphicsBuilder.ParseExpression(textBox3.Text);
+
         }
     }
 }

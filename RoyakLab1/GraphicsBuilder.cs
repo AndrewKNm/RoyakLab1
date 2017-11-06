@@ -11,15 +11,16 @@ namespace RoyakLab1
     {
         Expression exp;
         private List<Point> pointList;
-        public void ParseExpression(string s)
+        public void ParseExpression(string s, int h)
         {
+            pointList.Clear();
             for (int i = 0; i < 640; i += 4)
             {
                 double ax = (double)i / 100;
                 Argument x = new Argument(string.Format("x = {0}",ax));
                 exp = new Expression(s, x);
-                var y = exp.calculate();
-                AddPoint(new Point(i, (int)(y * 100)));
+                var y = h - (int)(exp.calculate()*100);
+                AddPoint(new Point(i, y));
             }
         }
         public GraphicsBuilder()
