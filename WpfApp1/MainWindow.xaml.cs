@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using org.mariuszgromada.math.mxparser;
+using System;
 
 namespace WpfApp1
 {
@@ -11,7 +11,10 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
-        org.mariuszgromada.math.mxparser.Expression exp;
+        public class parameters
+        {
+            public double x { get; set; }
+        };
         public MainWindow()
         {
             InitializeComponent();
@@ -20,13 +23,12 @@ namespace WpfApp1
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             LinkedList<Point> pointList = new LinkedList<Point>();
+            var script = Microsoft.CodeAnalysis.CSharp.Scripting.CSharpScript.Create<double>(TextBox.Text, Microsoft.CodeAnalysis.Scripting.ScriptOptions.Default.WithImports("System.Math").WithReferences(typeof(parameters).AssemblyQualifiedName), typeof(parameters));
+            Microsoft.CodeAnalysis.Scripting.ScriptRunner<double> fun = script.CreateDelegate();
             for (int i = 0; i < DrawGrid.ActualWidth; i += 4)
             {
                 double ax = (double)i / 100;
-                Argument x = new Argument($"x = {ax}");
-                exp = new org.mariuszgromada.math.mxparser.Expression(TextBox.Text, x);
-                var y = exp.calculate();
-                y = -y + DrawGrid.ActualHeight/100;
+                var y = DrawGrid.ActualHeight/200 - (fun.Invoke(new parameters() { x = ax }).Result);
                 pointList.AddLast(new Point(i, (int)(y * 100)));
             }
 

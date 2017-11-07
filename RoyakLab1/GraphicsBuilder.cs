@@ -1,4 +1,5 @@
-﻿using System.Drawing.Drawing2D;
+﻿using System;
+using System.Drawing.Drawing2D;
 using System.Collections.Generic;
 using System.Linq;
 using System.Drawing;
@@ -9,17 +10,27 @@ namespace RoyakLab1
 {
     public class GraphicsBuilder : IGraphicsBuilder
     {
+        public class parameters
+        {
+            public double x { get; set; }
+        };
         Expression exp;
         private List<Point> pointList;
-        public void ParseExpression(string s, int h)
+        public void ParseExpression(string s, int h, int w)
         {
             pointList.Clear();
-            for (int i = 0; i < 640; i += 4)
+            var script = Microsoft.CodeAnalysis.CSharp.Scripting.CSharpScript.Create<double>(s, Microsoft.CodeAnalysis.Scripting.ScriptOptions.Default.WithImports("System.Math").WithReferences(typeof(parameters).AssemblyQualifiedName), typeof(parameters));
+            Microsoft.CodeAnalysis.Scripting.ScriptRunner<double> fun = script.CreateDelegate();
+            for (int i = 0; i < w; i += 4)
             {
-                double ax = (double)i / 100;
-                Argument x = new Argument(string.Format("x = {0}",ax));
-                exp = new Expression(s, x);
-                var y = h - (int)(exp.calculate()*100);
+                double ax = (double)i / 100;               
+                //var st = $"x = {ax}";
+               // st = st.Replace(",", ".");
+                
+               // Argument x = new Argument(st);
+               // exp = new Expression(s, x);
+                var y = h/2 - (int)(fun.Invoke(new parameters() { x = ax }).Result *100);
+                //var z = exp.calculate();
                 AddPoint(new Point(i, y));
             }
         }

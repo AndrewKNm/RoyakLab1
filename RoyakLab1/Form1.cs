@@ -19,6 +19,7 @@ namespace RoyakLab1
 
         public Form1()
         {
+            
             InitializeComponent();
             GraphicsBuilder = new GraphicsBuilder();
         }
@@ -31,9 +32,11 @@ namespace RoyakLab1
 
         private void Form1_Buttom(object sender, EventArgs e)
         {
-            GraphicsBuilder.ParseExpression(textBox3.Text, pictureBox1.Height);
+            g.Clear(Color.White);
+            GraphicsBuilder.ParseExpression(textBox3.Text, pictureBox1.Height, pictureBox1.Width);
             var myBrush = new SolidBrush(Color.Aqua);
-            g.DrawPath(new Pen(Color.Black), GraphicsBuilder.GetPath());
+            var gg = GraphicsBuilder.GetPath();
+            g.DrawPath(new Pen(Color.Black), gg);
             myBrush.Dispose();
       }
 

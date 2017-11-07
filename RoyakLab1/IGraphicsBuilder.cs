@@ -7,7 +7,7 @@ namespace RoyakLab1
 {
     public interface IGraphicsBuilder
     {
-        void ParseExpression(string s, int h);
+        void ParseExpression(string s, int h, int w);
         void AddPoint(Point p);
         GraphicsPath GetPath();
     }
