@@ -9,6 +9,6 @@
     <Grid x:Name="MainGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
         <Button x:Name ="BtnStart" Content="Start" Margin="0,0,10,10" Click="Button_Click" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="23" Width="60"/>
         <Canvas x:Name ="DrawGrid" Margin="10,10,10,45" MinWidth="400" MinHeight="200"/>
-        <TextBox x:Name ="TextBox" Margin="0,0,84,10" TextWrapping="Wrap" Text="x^2" VerticalAlignment="Bottom" Height="23" HorizontalAlignment="Right" Width="423"/>
+        <TextBox x:Name ="TextBox" Margin="0,0,84,10" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Height="23" HorizontalAlignment="Right" Width="423"/>
     </Grid>
 </Window>

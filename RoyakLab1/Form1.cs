@@ -19,7 +19,7 @@ namespace RoyakLab1
 
         public Form1()
         {
-            
+
             InitializeComponent();
             GraphicsBuilder = new GraphicsBuilder();
         }
@@ -36,22 +36,41 @@ namespace RoyakLab1
             GraphicsBuilder.ParseExpression(textBox3.Text, pictureBox1.Height, pictureBox1.Width);
             var myBrush = new SolidBrush(Color.Aqua);
             var gg = GraphicsBuilder.GetPath();
+            drawAxis();
             g.DrawPath(new Pen(Color.Black), gg);
             myBrush.Dispose();
-      }
+        }
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-          //  Brush aBrush = (Brush)Brushes.Black;
-          //  var posX = pictureBox1.PointToClient(Cursor.Position).X;
-          //  var posY = pictureBox1.PointToClient(Cursor.Position).Y;
-          //
-          //  label1.Text = Convert.ToString(posX + ";"+ posY);
-          //  GraphicsBuilder.AddPoint(PointToClient(Cursor.Position));
-          //  g.FillRectangle(aBrush, posX, posY, 2, 2);
-            
-        }
+            //  Brush aBrush = (Brush)Brushes.Black;
+            //  var posX = pictureBox1.PointToClient(Cursor.Position).X;
+            //  var posY = pictureBox1.PointToClient(Cursor.Position).Y;
+            //
+            //  label1.Text = Convert.ToString(posX + ";"+ posY);
+            //  GraphicsBuilder.AddPoint(PointToClient(Cursor.Position));
+            //  g.FillRectangle(aBrush, posX, posY, 2, 2);
 
+        }
+        private void drawAxis()
+        {
+            g.DrawLine(new Pen(Color.Black), 0, pictureBox1.Height / 2, pictureBox1.Width, pictureBox1.Height / 2);
+            for (int i = 0; i < pictureBox1.Width; i += 100)
+            {
+                g.DrawLine(new Pen(Color.Black), i, pictureBox1.Height / 2 - 2, i, pictureBox1.Height / 2 + 2);
+                var ai = i / 100;
+                g.DrawString($"{ai}", new Font("Arial", 11), Brushes.Black, i, pictureBox1.Height / 2 + 2);
+            }
+            g.DrawLine(new Pen(Color.Black), 1, pictureBox1.Height, 1, 0);
+            for (int i = pictureBox1.Height / 2+100; i < pictureBox1.Height; i += 100)
+            {
+                g.DrawLine(new Pen(Color.Black), 0, i, 2, i);
+                g.DrawLine(new Pen(Color.Black), 0, pictureBox1.Height - i, 2, pictureBox1.Height - i);
+                var ai = (i - pictureBox1.Height/2) / 100;
+                g.DrawString($"-{ai}", new Font("Arial", 11), Brushes.Black, 2,i -1);
+                g.DrawString($"{ai}", new Font("Arial", 11), Brushes.Black, 2, pictureBox1.Height - i -1);
+            }
+        }
         private void button2_Click(object sender, EventArgs e)
         {
 
