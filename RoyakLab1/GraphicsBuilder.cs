@@ -16,20 +16,20 @@ namespace RoyakLab1
         };
         Expression exp;
         private List<Point> pointList;
-        public void ParseExpression(string s, int h, int w)
+        public void ParseExpression(string s, int h, int w, int factor)
         {
             pointList.Clear();
             var script = Microsoft.CodeAnalysis.CSharp.Scripting.CSharpScript.Create<double>(s, Microsoft.CodeAnalysis.Scripting.ScriptOptions.Default.WithImports("System.Math").WithReferences(typeof(parameters).AssemblyQualifiedName), typeof(parameters));
             Microsoft.CodeAnalysis.Scripting.ScriptRunner<double> fun = script.CreateDelegate();
             for (int i = 0; i < w; i += 4)
             {
-                double ax = (double)i / 100;               
+                double ax = (double)i / factor;               
                 //var st = $"x = {ax}";
                // st = st.Replace(",", ".");
                 
                // Argument x = new Argument(st);
                // exp = new Expression(s, x);
-                var y = h/2 - (int)(fun.Invoke(new parameters() { x = ax }).Result *100);
+                var y = h/2 - (int)(fun.Invoke(new parameters() { x = ax }).Result *factor);
                 //var z = exp.calculate();
                 AddPoint(new Point(i, y));
             }

@@ -13,6 +13,7 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
+        int factor = 100;
         public class parameters
         {
             public double x { get; set; }
@@ -20,18 +21,33 @@ namespace WpfApp1
         public MainWindow()
         {
             InitializeComponent();
+            DrawGrid.Background = new SolidColorBrush(Colors.White);
+            DrawGrid.MouseMove += DrawGrid_MouseMove;
+            DrawGrid.MouseWheel += DrawGrid_MouseWheel;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void DrawGrid_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            Label1.Content = Convert.ToString("x:" + System.Windows.Input.Mouse.GetPosition(this).X + ";y:" + System.Windows.Input.Mouse.GetPosition(this).Y);
+        }
+        private void DrawGrid_MouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
+        {
+            if (e.Delta > 0)
+                factor *= 2;
+            else
+                factor /= 2;
+            DrawGraph();
+        }
+        private void DrawGraph()
         {
             LinkedList<Point> pointList = new LinkedList<Point>();
             var script = Microsoft.CodeAnalysis.CSharp.Scripting.CSharpScript.Create<double>(TextBox.Text, Microsoft.CodeAnalysis.Scripting.ScriptOptions.Default.WithImports("System.Math").WithReferences(typeof(parameters).AssemblyQualifiedName), typeof(parameters));
             Microsoft.CodeAnalysis.Scripting.ScriptRunner<double> fun = script.CreateDelegate();
             for (int i = 0; i < DrawGrid.ActualWidth; i += 4)
             {
-                double ax = (double)i / 100;
-                var y = DrawGrid.ActualHeight/200 - (fun.Invoke(new parameters() { x = ax }).Result);
-                pointList.AddLast(new Point(i, (int)(y * 100)));
+                double ax = (double)i / factor;
+                var y = DrawGrid.ActualHeight / (2*factor) - (fun.Invoke(new parameters() { x = ax }).Result);
+                pointList.AddLast(new Point(i, (int)(y * factor)));
             }
 
             var myPath = new Path
@@ -44,6 +60,11 @@ namespace WpfApp1
             DrawGrid.Children.Clear();
             DrawGrid.Children.Add(myPath);
             drawAxis();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            DrawGraph();
         }
 
         public PathGeometry Linearize(LinkedList<Point> points)
@@ -65,7 +86,7 @@ namespace WpfApp1
             myLine1.Y2 = DrawGrid.ActualHeight / 2;
             myLine1.StrokeThickness = 1;
             DrawGrid.Children.Add(myLine1);
-            for (int i = 0; i < DrawGrid.ActualWidth; i += 100)
+            for (int i = 0; i < DrawGrid.ActualWidth; i += factor)
             {
                 var myVLine = new Line();
                 myVLine.Stroke = Brushes.Black;
@@ -75,7 +96,7 @@ namespace WpfApp1
                 myVLine.Y2 = DrawGrid.ActualHeight / 2 + 2;
                 myVLine.StrokeThickness = 1;
                 DrawGrid.Children.Add(myVLine);
-                var ai = i / 100;
+                var ai = i / factor;
                 string ts = $"{ai}";
                 var txb = new TextBlock();
                 txb.Text = ts;
@@ -91,9 +112,9 @@ namespace WpfApp1
             myLine2.Y2 = 0;
             myLine2.StrokeThickness = 1;
             DrawGrid.Children.Add(myLine2);
-            for (int i = (int)DrawGrid.ActualHeight / 2 + 100; i < DrawGrid.ActualHeight; i += 100)
+            for (int i = (int)DrawGrid.ActualHeight / 2 + factor; i < DrawGrid.ActualHeight; i += factor)
             {
-                var ai = (i - DrawGrid.ActualHeight / 2) / 100; ;
+                var ai = (i - DrawGrid.ActualHeight / 2) / factor; ;
                 
 
                 var myHLine1 = new Line();
