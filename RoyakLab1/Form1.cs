@@ -16,21 +16,18 @@ namespace RoyakLab1
     {
         private Graphics g;
         private IGraphicsBuilder GraphicsBuilder;
-        private int factor = 100;
+        private int factor = 96;
         private int deltainc = 0;
 
         private void picturebox1_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             deltainc += e.Delta;
-            if (factor < 204800 && factor > 12)
-            {
-                if (e.Delta > 0)
-                    factor *= 2;
-                else
-                    factor /= 2;
-                label2.Text = factor.ToString();
+            if (e.Delta > 0)
+                factor *= 2;
+            else
+                factor /= 2;
+            if (factor <= 204800 && factor >= 12)
                 DrawGraph();
-            }
             else
             {
                 deltainc -= e.Delta;
@@ -84,7 +81,10 @@ namespace RoyakLab1
         private void drawAxis()
         {
             g.DrawLine(new Pen(Color.Black), 0, pictureBox1.Height / 2, pictureBox1.Width, pictureBox1.Height / 2);
-            for (int i = 0; i < pictureBox1.Width; i += factor)
+            var factor2 = 1;
+            if (factor < 24)
+                factor2 = 2;
+            for (int i = 0; i < pictureBox1.Width; i += factor * factor2)
             {
                 g.DrawLine(new Pen(Color.Black), i, pictureBox1.Height / 2 - 2, i, pictureBox1.Height / 2 + 2);
                 var ai = i / factor;

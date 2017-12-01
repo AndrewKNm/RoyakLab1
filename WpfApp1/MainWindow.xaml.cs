@@ -13,7 +13,8 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
-        int factor = 100;
+        int factor = 96;
+        private int deltainc = 0;
         public class parameters
         {
             public double x { get; set; }
@@ -36,7 +37,16 @@ namespace WpfApp1
                 factor *= 2;
             else
                 factor /= 2;
-            DrawGraph();
+            if (factor <= 204800 && factor >= 12)
+                DrawGraph();
+            else
+            {
+                deltainc -= e.Delta;
+                if (e.Delta > 0)
+                    factor /= 2;
+                else
+                    factor *= 2;
+            }
         }
         private void DrawGraph()
         {
@@ -86,7 +96,10 @@ namespace WpfApp1
             myLine1.Y2 = DrawGrid.ActualHeight / 2;
             myLine1.StrokeThickness = 1;
             DrawGrid.Children.Add(myLine1);
-            for (int i = 0; i < DrawGrid.ActualWidth; i += factor)
+            var factor2 = 1;
+            if (factor < 24)
+                factor2 = 2;
+            for (int i = 0; i < DrawGrid.ActualWidth; i += factor * factor2)
             {
                 var myVLine = new Line();
                 myVLine.Stroke = Brushes.Black;
@@ -112,9 +125,9 @@ namespace WpfApp1
             myLine2.Y2 = 0;
             myLine2.StrokeThickness = 1;
             DrawGrid.Children.Add(myLine2);
-            for (int i = (int)DrawGrid.ActualHeight / 2 + factor; i < DrawGrid.ActualHeight; i += factor)
+            for (int i = (int)DrawGrid.ActualHeight / 2 + factor; i < DrawGrid.ActualHeight; i += factor*factor2)
             {
-                var ai = (i - DrawGrid.ActualHeight / 2) / factor; ;
+                int ai = (int) (i - DrawGrid.ActualHeight / 2) / factor; ;
                 
 
                 var myHLine1 = new Line();
